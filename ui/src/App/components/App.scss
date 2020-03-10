@@ -1,0 +1,21 @@
+.app {
+  code {
+    white-space: pre;
+  }
+
+  .navbar {
+    width: 100%;
+    max-width: 375px;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    a {
+      color: #4d5258;
+    }
+  }
+
+  .route-loading {
+    text-align: center;
+    max-width: 375px;
+  }
+}
