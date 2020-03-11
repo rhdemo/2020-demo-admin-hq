@@ -1,21 +1,27 @@
 const Game = require("../models/game");
-const Player = require("../models/player");
+const { v4: uuidv4 } = require('uuid');
+const {OUTGOING_AMQ_MESSAGE_TYPES} = require('../messaging/message-types');
 
 async function resetGameHandler(ws, messageObj) {
-  const gameDeleteAllPromise = Game.deleteAll();
-  const playerDeleteAllPromise = Player.deleteAll();
   try {
-    await gameDeleteAllPromise;
-    await playerDeleteAllPromise;
+    let game = new Game();
+    game.id = uuidv4();
+    await game.save();
+    global.game = game;
   } catch (error) {
-    log.error(`error occurred resetting players and game. Error:`, error.message);
+    log.error(`error occurred creating new game. Error:`, error.message);
   }
 
   try {
-    let game = new Game();
-    await game.save();
+    global.amqpSender.send({
+      body: {
+        type: OUTGOING_AMQ_MESSAGE_TYPES.RESET_GAME,
+        game: global.game.toDict()
+      }
+    });
   } catch (error) {
-    log.error(`error occurred creating new game. Error:`, error.message);
+    log.error('error occurred in sending game reset');
+    log.error(error);
   }
 }
 

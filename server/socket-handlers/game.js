@@ -3,6 +3,7 @@ const axios = require('../utils/axios');
 const Game = require('../models/game');
 const {GAME_DATA_KEYS} = require('../models/constants');
 const {GAME_URL} = require('../utils/constants');
+const {OUTGOING_AMQ_MESSAGE_TYPES} = require('../messaging/message-types');
 
 async function gameHandler(ws, messageObj) {
   let game;
@@ -27,6 +28,18 @@ async function gameHandler(ws, messageObj) {
   }
 
   global.game = game;
+
+  try {
+    global.amqpSender.send({
+      body: {
+        type: OUTGOING_AMQ_MESSAGE_TYPES.GAME,
+        game: global.game.toDict()
+      }
+    });
+  } catch (error) {
+    log.error('error occurred in sending game update');
+    log.error(error);
+  }
 
   try {
     const requestInfo = {

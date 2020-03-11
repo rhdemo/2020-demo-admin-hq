@@ -7,7 +7,7 @@ const broadcast = require('./utils/broadcast');
 const globalHandler = require('./socket-handlers/global');
 const initGameData = require('./datagrid/init-game-data');
 const initPlayerData = require('./datagrid/init-player-data');
-const initAmqp = require('./amqp/init');
+const initGameMessaging = require('./messaging/init-game-messaging');
 
 
 const opts = {};
@@ -55,7 +55,8 @@ fastify.register(require('fastify-websocket'), {
 }).after(err => {
   global.socketServer = fastify.websocketServer;
   initGameData()
-    .then(() => initPlayerData());
+    .then(() => initPlayerData())
+    .then(() => initGameMessaging());
   setInterval(function () {
     broadcast('heartbeat');
   }, 5000);
