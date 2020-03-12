@@ -1,44 +1,45 @@
 const log = require("../utils/log")("datagrid/poll-datagrid");
 const initGame = require("./init-game-data");
 const initPlayers = require("./init-player-data");
-const {GAME_DATA_KEYS} = require("./constants");
+const {GAME_DATA_KEYS} = require("../models/constants");
+const Game = require("../models/game");
 
 
 function pollDatagrid(interval) {
   setTimeout(async () => {
     log.debug("checking Datagrid connections");
-    await checkDataClient();
+    await checkGameClient();
     await checkPlayerClient();
     pollDatagrid(interval);
   }, interval);
 }
 
-async function checkDataClient() {
-  log.debug("checkDataClient");
+async function checkGameClient() {
+  log.debug("check Infinispan Game Client");
   try {
-    let game = await Game.find(GAME_DATA_KEYS.CURRENT_GAME)
+    let game = await Game.find(GAME_DATA_KEYS.CURRENT_GAME);
     if (game) {
       global.game = game;
     } else {
       log.error("Game configuration missing");
     }
   } catch (e) {
-    log.error("Error connecting to Infinispan default cache", e.message);
-    await reconnectDataClient();
+    log.error("Error connecting to Infinispan game cache", e.message);
+    await reconnectGameClient();
   }
 }
 
-async function reconnectDataClient() {
-  log.info("Attempting to reconnect to Infinispan default cache");
+async function reconnectGameClient() {
+  log.info("Attempting to reconnect to Infinispan game cache");
   try {
     await initGame();
   } catch (e) {
-    log.error("Failed to reconnect to Infinispan default cache.  Error: ", e.message);
+    log.error("Failed to reconnect to Infinispan game cache.  Error: ", e.message);
   }
 }
 
 async function checkPlayerClient() {
-  log.debug("checkPlayerClient");
+  log.debug("check Infinispan Player Client");
   try {
     global.playerStats = await global.playerData.stats();
   } catch (e) {
