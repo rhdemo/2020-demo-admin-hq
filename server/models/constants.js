@@ -1,6 +1,5 @@
-
 module.exports.GAME_DATA_KEYS = {
-  CURRENT_GAME: "current-game"
+  CURRENT_GAME: "game"
 };
 
 module.exports.GAME_STATES = {

@@ -49,9 +49,9 @@ async function gameHandler(ws, messageObj) {
       method: 'POST',
       url: new URL('/api/game/save', GAME_URL).href,
       data: {
-        id: game.id,
-        state: game.state,
-        configuration: game.configuration
+        id: global.game.id,
+        state: global.game.state,
+        configuration: global.game.configuration
       }
     };
 

@@ -2,7 +2,7 @@ const infinispan = require("infinispan");
 const env = require("env-var");
 
 const log = require("../utils/log")("datagrid");
-const {GAME_DATA_KEYS} = require("./constants");
+const {GAME_DATA_KEYS} = require("../models/constants");
 const readGame = require("./read-game");
 const gameHandler = require("./game");
 

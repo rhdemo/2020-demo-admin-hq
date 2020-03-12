@@ -11,7 +11,8 @@ for ENV_VAR in $(sed 's/=.*//' ${ENV_FILE}); do export "${ENV_VAR}"; done
 ADMIN_SERVER_PORT=${ADMIN_SERVER_PORT:-'8083'}
 DATAGRID_HOST=${DATAGRID_HOST:-'0.0.0.0'}
 DATAGRID_HOTROD_PORT=${DATAGRID_HOTROD_PORT:-'11222'}
-#GAME_URL=????
+GAME_URL=${GAME_URL:-'http://localhost:1234'}
+
 
 cd "${DIR}/.."
 pwd
