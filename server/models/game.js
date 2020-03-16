@@ -9,7 +9,7 @@ class Game extends Model {
   constructor() {
     super();
     this.state = GAME_STATES.LOBBY;
-    this.date = new Date();
+    this.date = new Date().toISOString();
     this.configuration = {};
   }
 
