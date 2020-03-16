@@ -23,28 +23,28 @@ async function resetGameHandler(ws, messageObj) {
     log.error('error occurred in sending game reset');
     log.error(error);
   }
-
-  try {
-    const requestInfo = {
-      headers: {
-        'content-type': 'application/json',
-      },
-      method: 'POST',
-      url: new URL('/api/game/save', GAME_URL).href,
-      data: {
-        id: global.game.id,
-        state: global.game.state,
-        configuration: global.game.configuration
-      }
-    };
-
-    log.debug('requestInfo', requestInfo);
-    const response = await axios(requestInfo);
-    log.debug('response data', response.data);
-  } catch (error) {
-    log.error('error occurred in http call to game save API:');
-    log.error(error.message);
-  }
+  //
+  // try {
+  //   const requestInfo = {
+  //     headers: {
+  //       'content-type': 'application/json',
+  //     },
+  //     method: 'POST',
+  //     url: new URL('/api/game/save', GAME_URL).href,
+  //     data: {
+  //       id: global.game.id,
+  //       state: global.game.state,
+  //       configuration: global.game.configuration
+  //     }
+  //   };
+  //
+  //   log.debug('requestInfo', requestInfo);
+  //   const response = await axios(requestInfo);
+  //   log.debug('response data', response.data);
+  // } catch (error) {
+  //   log.error('error occurred in http call to game save API:');
+  //   log.error(error.message);
+  // }
 }
 
 module.exports = resetGameHandler;
