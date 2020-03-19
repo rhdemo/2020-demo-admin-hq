@@ -31,6 +31,7 @@ async function gameHandler(ws, messageObj) {
 
   try {
     global.amqpSender.send({
+      content_type: "application/json",
       body: {
         type: OUTGOING_AMQ_MESSAGE_TYPES.GAME,
         game: global.game.toDict()
