@@ -4,21 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faStop, faPlay, faStar, faPause, faUndo } from "@fortawesome/free-solid-svg-icons";
 import { sendPing, updateGameState, resetGame } from '../actions';
 import GAME_STATES from '../../utilities/GameStates'
+import './GameTools.scss';
 
-function State({game, sendPing, updateGameState, resetGame}) {
+function GameTools({game, updateGameState, resetGame}) {
   if (!game) {
     return <div/>;
   }
 
   return (
-    <div className="game-state horizontal-button-container">
-      <button
-        className="button"
-        type="button"
-        onClick={() => {
-          sendPing();
-        }}>Ping
-      </button>
+    <div className="game-tools horizontal-button-container">
       <button
         className="button"
         type="button"
@@ -77,9 +71,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    sendPing: () => {
-      dispatch(sendPing());
-    },
     updateGameState: (state) => {
       dispatch(updateGameState(state));
     },
@@ -89,5 +80,5 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(State);
+export default connect(mapStateToProps, mapDispatchToProps)(GameTools);
 

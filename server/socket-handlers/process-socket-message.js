@@ -1,7 +1,7 @@
 const log = require('../utils/log')('global-socket-handler');
 const {INCOMING_MESSAGE_TYPES, OUTGOING_MESSAGE_TYPES} = require('./message-types');
 
-function global(conn, messageStr) {
+function processSocketMessage(conn, messageStr) {
   let messageObj;
 
   try {
@@ -55,10 +55,5 @@ const pingHandler = wrapMessageHandler(INCOMING_MESSAGE_TYPES.PING, function (ws
 const gameHandler = wrapMessageHandler(INCOMING_MESSAGE_TYPES.UPDATE_GAME, require("./game"));
 const resetHandler = wrapMessageHandler(INCOMING_MESSAGE_TYPES.RESET_GAME, require("./reset-game"));
 
-const handle = (connection) => {
-  connection.socket.on('message', message => {
-    global(connection.socket, message);
-  })
-};
 
-module.exports = handle;
+module.exports = processSocketMessage;

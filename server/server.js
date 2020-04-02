@@ -1,79 +1,44 @@
 'use strict';
-
-const path = require('path');
-const AutoLoad = require('fastify-autoload');
 const log = require('./utils/log')('admin-server');
+const WebSocket = require("ws");
+
 const broadcast = require('./utils/broadcast');
-const globalHandler = require('./socket-handlers/global');
+const processSocketMessage = require('./socket-handlers/process-socket-message');
+const {OUTGOING_MESSAGE_TYPES} = require('./socket-handlers/message-types');
+
+require('./datagrid/enable-logging');
 const initGameData = require('./datagrid/init-game-data');
 const initPlayerData = require('./datagrid/init-player-data');
-const pollDatagrid = require("./datagrid/poll-datagrid");
+const pollDatagrid = require('./datagrid/poll-datagrid');
 const initGameMessaging = require('./messaging/init-game-messaging');
+const Game = require("./models/game");
 
 
-const opts = {};
-const {PORT, IP, LOG_LEVEL} = require('./utils/constants');
-const wsOpts = {
-  maxPayload: 100 * 1024 * 1024 // 100mb
-};
+const {PORT, IP} = require('./utils/constants');
 
-const fastify = require('fastify')();
-
-global.game = {
-  id: null,
-  state: "loading"
-};
-global.players = {};
-global.socketServer = null;
-
-//---------------------
-// Fastify Plugins
-
-//---------------------
-// Custom Plugins
-fastify.register(AutoLoad, {
-  dir: path.join(__dirname, 'plugins'),
-  options: Object.assign({}, opts)
+global.game = new Game();
+global.leaderboard = null;
+global.socketServer = new WebSocket.Server({
+  host: IP,
+  port: PORT
 });
 
-//---------------------
-// Decorators
+setInterval(function () {
+  broadcast(JSON.stringify({
+    type: OUTGOING_MESSAGE_TYPES.HEARTBEAT,
+    game: global.game.toDict(),
+    leaderboard: global.leaderboard
+  }));
+}, 3000);
 
-//---------------------
-// Hooks and Middlewares
-
-//---------------------
-// Services
-fastify.register(AutoLoad, {
-  dir: path.join(__dirname, 'services'),
-  options: Object.assign({}, opts)
-});
-
-// Global Websocket
-fastify.register(require('fastify-websocket'), {
-  handle: globalHandler,
-  options: wsOpts
-}).after(err => {
-  global.socketServer = fastify.websocketServer;
-  initGameData()
-    .then(() => initPlayerData())
-    .then(() => {
-      pollDatagrid(5000);
-      initGameMessaging();
+initGameData()
+  .then(() => initPlayerData())
+  .then(() => {
+    global.socketServer.on('connection', function connection(ws) {
+      ws.on('message', function incoming(message) {
+        processSocketMessage(ws, message);
+      });
     });
-  setInterval(function () {
-    broadcast('heartbeat');
-  }, 5000);
-});
-
-
-fastify.listen(PORT, IP, function (err, address) {
-  if (err) {
-    log.error(err);
-    process.exit(1);
-  }
-  log.info(`server listening on ${address}`);
-});
-
-
-
+    pollDatagrid(5000);
+    initGameMessaging();
+  });

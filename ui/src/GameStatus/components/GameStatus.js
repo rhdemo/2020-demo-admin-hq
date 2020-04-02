@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faCog, faPause, faFlagCheckered, faUndo, faStar } from "@fortawesome/free-solid-svg-icons";
 import GAME_STATES from '../../utilities/GameStates'
-import { resetGame, sendPing, updateGameState } from '../actions';
+import { resetGame } from '../actions';
+import './GameStatus.scss';
 
 
 function GameStatus({game, resetGame}) {
@@ -19,7 +20,7 @@ function GameStatus({game, resetGame}) {
       case GAME_STATES.ACTIVE:
         return <span className="notification is-success"><FontAwesomeIcon icon={faCog} spin={true}/> Active</span>;
       case GAME_STATES.BONUS:
-        return <span className="notification is-success"><FontAwesomeIcon icon={faStar} spin={true}/> Bonus</span>;
+        return <span className="notification is-info"><FontAwesomeIcon icon={faStar} spin={true}/> Bonus</span>;
       default:
         return <span className="notification is-black">{game.state || "???????"}</span>;
     }
@@ -27,7 +28,7 @@ function GameStatus({game, resetGame}) {
 
   if (!game) {
     return (
-      <section className="section">
+      <div className="game-status">
         <h1 className="title">Game Configuration Not Found: Reset Required</h1>
         <div className="horizontal-button-container">
           <button
@@ -39,7 +40,7 @@ function GameStatus({game, resetGame}) {
             <FontAwesomeIcon icon={faUndo}/> Reset
           </button>
         </div>
-      </section>
+      </div>
     );
   }
 

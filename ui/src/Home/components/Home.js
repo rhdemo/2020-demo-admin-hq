@@ -1,17 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import GameStatus from './GameStatus';
-import State from './State';
+import GameStatus from '../../GameStatus';
+import GameTools from '../../GameTools';
+import Leaderboard from '../../Leaderboard';
+import Bots from '../../Bots';
 
 import './Home.scss';
 
 function Home({game}) {
   return (
     <div className="home">
-      <div className="gameplay">
+      <section className="section">
         <GameStatus game={game}/>
-        <State/>
-      </div>
+        <GameTools/>
+      </section>
+      {/*<section className="section">*/}
+      {/*  <Bots/>*/}
+      {/*</section>*/}
+      <section className="section">
+        <Leaderboard/>
+      </section>
     </div>
   );
 }

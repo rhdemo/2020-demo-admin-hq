@@ -28,12 +28,12 @@ async function gameHandler(ws, messageObj) {
   global.game = game;
 
   try {
-    global.amqpSender.send({
+    global.amqpGameSender.send({
       content_type: "application/json",
-      body: {
+      body: JSON.stringify({
         type: OUTGOING_AMQ_MESSAGE_TYPES.GAME,
         game: global.game.toDict()
-      }
+      })
     });
   } catch (error) {
     log.error('error occurred in sending game update');
