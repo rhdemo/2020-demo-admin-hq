@@ -1,0 +1,21 @@
+.connection-status {
+  &.level {
+    margin-bottom: 0;
+
+    &.connected {
+      background-color: rgba(81, 255, 140, 0.45);
+    }
+
+    &.connecting {
+      background-color: rgba(253, 217, 103, 0.59);
+    }
+
+    &.disconnected {
+      background-color: rgba(248, 62, 99, 0.54);
+    }
+
+    &.lost {
+      background-color: rgba(248, 62, 99, 0.54);
+    }
+  }
+}

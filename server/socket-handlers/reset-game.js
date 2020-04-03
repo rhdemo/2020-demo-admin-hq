@@ -14,12 +14,12 @@ async function resetGameHandler(ws, messageObj) {
   }
 
   try {
-    global.amqpSender.send({
+    global.amqpGameSender.send({
       content_type: "application/json",
-      body: {
+      body: JSON.stringify({
         type: OUTGOING_AMQ_MESSAGE_TYPES.RESET_GAME,
         game: global.game.toDict()
-      }
+      })
     });
   } catch (error) {
     log.error('error occurred in sending game reset');

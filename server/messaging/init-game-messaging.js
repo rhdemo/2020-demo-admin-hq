@@ -12,6 +12,14 @@ function gameMessageHandler(message) {
   }
 
   switch (body.type) {
+    case 'reset-game':
+      log.debug('Game Reset message', message);
+      break;
+
+    case 'game':
+      log.debug('Game Update message', message);
+      break;
+
     default:
       log.debug('Unprocessed AMQ Message', message);
       break;
@@ -21,22 +29,22 @@ function gameMessageHandler(message) {
 function initGameMessaging() {
   const container = require('rhea').create_container({enable_sasl_external: true});
   container.on('connection_open', function (context) {
-    global.amqpReceiver = context.connection.open_receiver('mc/game');
-    global.amqpSender = context.connection.open_sender('mc/game');
+    global.amqpGameReceiver = context.connection.open_receiver('mc/game');
+    global.amqpGameSender = context.connection.open_sender('mc/game');
   });
   container.on('message', function (context) {
     gameMessageHandler(context.message);
   });
   container.once('sendable', function (context) {
     context.sender.send({
-      body: {
+      body: JSON.stringify({
         type: OUTGOING_AMQ_MESSAGE_TYPES.CONNECT,
         data: {
           clusterName: CLUSTER_NAME,
           hostname: HOSTNAME,
           date: new Date().toISOString()
         }
-      }
+      })
     });
   });
   container.connect();

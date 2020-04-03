@@ -35,7 +35,8 @@ function createSocketChannel() {
 
     const onWsOpen = (event) => {
       emit({
-        type: WS_OPEN
+        type: WS_OPEN,
+        payload: {url: getSocketUrl()}
       });
     };
 

@@ -1,19 +1,16 @@
-import React, { useEffect } from 'react';
+import React  from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { getStatus } from '../actions';
+import ConnectionStatus from '../../ConnectionStatus';
 import Routes from '../../Routes';
 
 import './App.scss';
 
-function App({status, getStatus}) {
-  useEffect(() => {
-    getStatus();
-  }, []);    // eslint-disable-line
-
+function App() {
   return (
     <div className='app'>
+      <ConnectionStatus/>
       <Routes/>
     </div>
   );
@@ -24,11 +21,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    getStatus: () => {
-      dispatch(getStatus());
-    }
-  };
+  return {};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));
