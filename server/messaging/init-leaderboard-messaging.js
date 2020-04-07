@@ -3,7 +3,7 @@ const {OUTGOING_AMQ_MESSAGE_TYPES} = require('./message-types');
 const {CLUSTER_NAME, HOSTNAME} = require('../utils/constants');
 
 function leaderboardMessageHandler(message) {
-  log.info(message);
+  log.debug(message);
 
   const {body} = message;
 
@@ -17,6 +17,7 @@ function leaderboardMessageHandler(message) {
 }
 
 function initLeaderboardMessaging() {
+  log.info('Subscribing to mc/leaderboard');
   const container = require('rhea').create_container({enable_sasl_external: true});
   container.on('connection_open', function (context) {
     global.amqpLeaderboardReceiver = context.connection.open_receiver('mc/leaderboard');

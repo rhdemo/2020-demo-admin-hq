@@ -11,6 +11,7 @@ const initGameData = require('./datagrid/init-game-data');
 const initPlayerData = require('./datagrid/init-player-data');
 const pollDatagrid = require('./datagrid/poll-datagrid');
 const initGameMessaging = require('./messaging/init-game-messaging');
+const initLeaderboardMessaging = require('./messaging/init-leaderboard-messaging');
 const Game = require("./models/game");
 
 
@@ -41,4 +42,5 @@ initGameData()
     });
     pollDatagrid(5000);
     initGameMessaging();
+    initLeaderboardMessaging();
   });
