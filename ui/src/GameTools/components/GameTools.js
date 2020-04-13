@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faStop, faPlay, faStar, faPause, faUndo } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faStop, faPlay, faStar, faPause, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { sendPing, updateGameState, resetGame } from '../actions';
 import GAME_STATES from '../../utilities/GameStates'
 import './GameTools.scss';
@@ -12,50 +12,50 @@ function GameTools({game, updateGameState, resetGame}) {
   }
 
   return (
-    <div className="game-tools horizontal-button-container">
+    <div className='game-tools horizontal-button-container'>
       <button
-        className="button"
-        type="button"
+        className='button'
+        type='button'
         onClick={() => {
           updateGameState(GAME_STATES.LOBBY);
         }}>
         <FontAwesomeIcon icon={faHome}/> Lobby
       </button>
       <button
-        className="button"
-        type="button"
+        className='button'
+        type='button'
         onClick={() => {
           updateGameState(GAME_STATES.STOPPED);
         }}>
         <FontAwesomeIcon icon={faStop}/> Stop
       </button>
       <button
-        className="button"
-        type="button"
+        className='button'
+        type='button'
         onClick={() => {
           updateGameState(GAME_STATES.PAUSED);
         }}>
         <FontAwesomeIcon icon={faPause}/> Pause
       </button>
       <button
-        className="button"
-        type="button"
+        className='button'
+        type='button'
         onClick={() => {
           updateGameState(GAME_STATES.ACTIVE);
         }}>
         <FontAwesomeIcon icon={faPlay}/> Play
       </button>
       <button
-        className="button"
-        type="button"
+        className='button'
+        type='button'
         onClick={() => {
           updateGameState(GAME_STATES.BONUS);
         }}>
         <FontAwesomeIcon icon={faStar}/> Bonus
       </button>
       <button
-        className="button"
-        type="button"
+        className='button'
+        type='button'
         onClick={() => {
           resetGame();
         }}>

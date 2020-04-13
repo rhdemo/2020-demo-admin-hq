@@ -1,4 +1,4 @@
-import React  from "react";
+import React  from 'react';
 import { connect } from 'react-redux';
 import './ConnectionStatus.scss';
 
@@ -11,18 +11,18 @@ function ConnectionStatus(
     lastHeartbeat
   }) {
   return (
-    <nav className={"connection-status level " + connection}>
-      <div className="level-left">
-        <div className="level-item has-text-centered">
+    <nav className={'connection-status level ' + connection}>
+      <div className='level-left'>
+        <div className='level-item has-text-centered'>
           <div>
-            <p className="heading">{connectionUrl}: {connection}</p>
+            <p className='heading'>{connectionUrl}: {connection}</p>
           </div>
         </div>
       </div>
-      <div className="level-right">
-        <div className="level-item has-text-centered">
+      <div className='level-right'>
+        <div className='level-item has-text-centered'>
           <div>
-            <p className="heading">Last Heartbeat: {JSON.stringify(lastHeartbeat)}</p>
+            <p className='heading'>Last Heartbeat: {JSON.stringify(lastHeartbeat)}</p>
           </div>
         </div>
       </div>

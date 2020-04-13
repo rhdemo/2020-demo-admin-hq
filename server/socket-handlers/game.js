@@ -1,27 +1,31 @@
 const log = require('../utils/log')('game-socket-handler');
-const Game = require('../models/game');
-const {GAME_DATA_KEYS} = require('../models/constants');
-const {OUTGOING_AMQ_MESSAGE_TYPES} = require('../messaging/message-types');
+const {GAME_DATA_KEYS, GAME_STATES} = require("../datagrid/game-constants");
+const AMQ_MESSAGE_TYPES = require('../messaging/message-types');
 
 async function gameHandler(ws, messageObj) {
   let game;
   try {
-    game = await Game.find(GAME_DATA_KEYS.CURRENT_GAME);
+    let str = await global.gameData.get(GAME_DATA_KEYS.CURRENT_GAME);
+    if (str) {
+      game = JSON.parse(str);
+    } else {
+      log.error("Game configuration missing");
+    }
   } catch (error) {
-    log.error('Failed to read game. Error:', error.message);
+    log.error('Failed to read game. Error: %o', error);
     return;
   }
 
   if (!game) {
-    game = new Game();
+    return;
   }
 
-  game.updateAttributes(messageObj.game);
+  Object.assign(game, messageObj.game);
 
   try {
-    await game.save();
+    await global.gameData.put(GAME_DATA_KEYS.CURRENT_GAME, JSON.stringify(game));
   } catch (error) {
-    log.error('Failed to update game. Error:', error.message);
+    log.error('Failed to update game. Error: %o', error);
     return;
   }
 
@@ -31,8 +35,8 @@ async function gameHandler(ws, messageObj) {
     global.amqpGameSender.send({
       content_type: "application/json",
       body: JSON.stringify({
-        type: OUTGOING_AMQ_MESSAGE_TYPES.GAME,
-        game: global.game.toDict()
+        type: AMQ_MESSAGE_TYPES.GAME.GAME,
+        game: global.game
       })
     });
   } catch (error) {

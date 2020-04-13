@@ -66,6 +66,6 @@ function processWsMessage(state, message) {
     default:
       newValues = data;
   }
-  return {...state, ...newValues, loading: false, connection: "connected"};
+  return {...state, ...newValues, loading: false, connection: 'connected'};
 }
 

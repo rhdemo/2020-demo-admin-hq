@@ -1,3 +1,40 @@
 .bots {
+  .bots-heading {
+    margin-bottom: 2rem;
+  }
 
+  .cluster-container {
+
+  }
+
+  .cluster {
+    display: inline-block;
+    margin-right: 2rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border: solid 1px lightgray;
+    min-width: 400px;
+    min-height: 450px;
+    overflow: hidden;
+
+
+    .bots-per-cluster {
+      max-width: 25rem;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      input {
+        //width: auto;
+      }
+
+      .button-bar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .button {
+          font-size: .8rem;
+        }
+      }
+    }
+  }
 }

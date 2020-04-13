@@ -7,7 +7,7 @@ function processSocketMessage(conn, messageStr) {
   try {
     messageObj = JSON.parse(messageStr);
   } catch (error) {
-    log.error('Malformed socket message JSON:', error.message);
+    log.error('Malformed socket message JSON: %o', error);
     return;
   }
 
@@ -26,6 +26,14 @@ function processSocketMessage(conn, messageStr) {
 
     case INCOMING_MESSAGE_TYPES.UPDATE_GAME:
       gameHandler(conn, messageObj);
+      break;
+
+    case INCOMING_MESSAGE_TYPES.BOT_PING:
+      botPingHandler(conn, messageObj);
+      break;
+
+    case INCOMING_MESSAGE_TYPES.BOT_CONFIG:
+      botConfigHandler(conn, messageObj);
       break;
 
     default:
@@ -54,6 +62,8 @@ const pingHandler = wrapMessageHandler(INCOMING_MESSAGE_TYPES.PING, function (ws
 });
 const gameHandler = wrapMessageHandler(INCOMING_MESSAGE_TYPES.UPDATE_GAME, require("./game"));
 const resetHandler = wrapMessageHandler(INCOMING_MESSAGE_TYPES.RESET_GAME, require("./reset-game"));
+const botPingHandler = wrapMessageHandler(INCOMING_MESSAGE_TYPES.BOT_PING, require("./bot-ping"));
+const botConfigHandler = wrapMessageHandler(INCOMING_MESSAGE_TYPES.BOT_CONFIG, require("./bot-config"));
 
 
 module.exports = processSocketMessage;

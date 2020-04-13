@@ -1,13 +1,12 @@
 const log = require("../utils/log")("datagrid/poll-datagrid");
 const initGame = require("./init-game-data");
 const initPlayers = require("./init-player-data");
-const {GAME_DATA_KEYS} = require("../models/constants");
-const Game = require("../models/game");
+const {GAME_DATA_KEYS} = require("./game-constants");
 
 
 function pollDatagrid(interval) {
   setTimeout(async () => {
-    log.debug("checking Datagrid connections");
+    log.trace("checking Datagrid connections");
     await checkGameClient();
     await checkPlayerClient();
     pollDatagrid(interval);
@@ -15,11 +14,11 @@ function pollDatagrid(interval) {
 }
 
 async function checkGameClient() {
-  log.debug("check Infinispan Game Client");
+  log.trace("check Infinispan Game Client");
   try {
-    let game = await Game.find(GAME_DATA_KEYS.CURRENT_GAME);
-    if (game) {
-      global.game = game;
+    let str = await global.gameData.get(GAME_DATA_KEYS.CURRENT_GAME);
+    if (str) {
+      global.game = JSON.parse(str);
     } else {
       log.error("Game configuration missing");
     }
@@ -39,7 +38,7 @@ async function reconnectGameClient() {
 }
 
 async function checkPlayerClient() {
-  log.debug("check Infinispan Player Client");
+  log.trace("check Infinispan Player Client");
   try {
     global.playerStats = await global.playerData.stats();
   } catch (e) {

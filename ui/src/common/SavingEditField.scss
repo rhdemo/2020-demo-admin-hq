@@ -1,0 +1,17 @@
+.field.saving-edit-field {
+  display: flex;
+
+  .input.editable {
+    border-color: #3273dc;
+  }
+
+ .button {
+    margin-left: .5rem;
+    svg {
+      margin: 0;
+    }
+  }
+  .edit-button {
+    border: none;
+  }
+}

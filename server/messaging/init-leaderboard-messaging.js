@@ -1,26 +1,25 @@
-const log = require("../utils/log")("game-messaging");
-const {OUTGOING_AMQ_MESSAGE_TYPES} = require('./message-types');
-const {CLUSTER_NAME, HOSTNAME} = require('../utils/constants');
+const log = require("../utils/log")("leaderboard-messaging");
+
+const options = 'mc/leaderboard';
 
 function leaderboardMessageHandler(message) {
-  log.debug(message);
+  log.trace('receiving message: %o', message);
 
   const {body} = message;
 
   if (!body) {
-    log.debug('Malformed AMQ Message', message);
+    log.warn('Malformed AMQ Message: %o', message);
   }
 
-
-  log.debug('Leadeboard updated', message);
-  global.leaderboard = body;
+  log.trace('Leadeboard updated: %o', message);
+  global.leaderboard = JSON.parse(body);
 }
 
 function initLeaderboardMessaging() {
-  log.info('Subscribing to mc/leaderboard');
+  log.info(`Subscribing to ${options}`);
   const container = require('rhea').create_container({enable_sasl_external: true});
   container.on('connection_open', function (context) {
-    global.amqpLeaderboardReceiver = context.connection.open_receiver('mc/leaderboard');
+    global.amqpLeaderboardReceiver = context.connection.open_receiver(options);
   });
   container.on('message', function (context) {
     leaderboardMessageHandler(context.message);

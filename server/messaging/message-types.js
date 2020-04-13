@@ -1,10 +1,16 @@
-module.exports.INCOMING_AMQ_MESSAGE_TYPES = {
-  LEADERBOARD: 'leaderboard'
+module.exports = {
+  LEADERBOARD: 'leaderboard',
+  GAME: {
+    CONNECT: 'admin-hq-connect',
+    RESET_GAME: 'reset-game',
+    GAME: 'game'
+  },
+  ADMIN: {
+    CONNECT: 'admin-hq-connect',
+    RESET_STATS: 'admin-reset-stats',
+    EDGE_STATS: 'admin-edge-stats',
+    BOT_STATS: 'bot-server-stats',
+    BOT_PING: 'bot-ping',
+    BOT_CONFIG: 'bot-config'
+  }
 };
-
-module.exports.OUTGOING_AMQ_MESSAGE_TYPES = {
-  CONNECT: 'admin-hq-connect',
-  RESET_GAME: 'reset-game',
-  GAME: 'game',
-};
-
