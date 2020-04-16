@@ -1,5 +1,17 @@
 .leaderboard {
-  code {
-    white-space: pre;
+  .game-stats {
+    margin-bottom: 2rem;
+  }
+
+  .leaders.subtitle {
+    margin-bottom: .5rem;
+  }
+  .leader-source-control {
+    label {
+      margin-right: 1rem;
+    }
+    input {
+      margin-right: .5rem;
+    }
   }
 }

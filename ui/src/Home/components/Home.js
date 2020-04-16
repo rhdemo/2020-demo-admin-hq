@@ -10,7 +10,7 @@ import Bots from '../../Bots';
 import './Home.scss';
 
 function Home({game}) {
-  const [tab, updateTab] = useState('game');
+  const [tab, updateTab] = useState('leaderboard');
 
   function renderTab() {
     switch (tab) {
@@ -20,17 +20,10 @@ function Home({game}) {
             <Bots/>
           </section>
         );
-      case 'leaderboard':
-        return (
-          <section className='section'>
-            <Leaderboard/>
-          </section>
-        );
       default:
         return (
           <section className='section'>
-            <GameStatus game={game}/>
-            <GameTools/>
+            <Leaderboard/>
           </section>
         );
     }
@@ -38,16 +31,17 @@ function Home({game}) {
 
   return (
     <div className='home'>
+      <section className='section'>
+        <GameStatus game={game}/>
+        <GameTools/>
+      </section>
       <div className='tabs is-boxed'>
         <ul>
-          <li className={tab === 'game' ? 'is-active' : ''}>
-            <a onClick={() => updateTab('game')}>Game</a>
+          <li className={tab === 'leaderboard' ? 'is-active' : ''}>
+            <a onClick={() => updateTab('leaderboard')}>Leaderboard</a>
           </li>
           <li className={tab === 'bots' ? 'is-active' : ''}>
             <a onClick={() => updateTab('bots')}>Bots</a>
-          </li>
-          <li className={tab === 'leaderboard' ? 'is-active' : ''}>
-            <a onClick={() => updateTab('leaderboard')}>Leaderboard</a>
           </li>
         </ul>
       </div>

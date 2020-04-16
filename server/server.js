@@ -10,6 +10,7 @@ require('./datagrid/enable-logging');
 const initGameData = require('./datagrid/init-game-data');
 const initPlayerData = require('./datagrid/init-player-data');
 const pollDatagrid = require('./datagrid/poll-datagrid');
+const pollLeaderboard = require('./integration/poll-leaderboard');
 const initGameMessaging = require('./messaging/init-game-messaging');
 const initLeaderboardMessaging = require('./messaging/init-leaderboard-messaging');
 const initAdminMessaging = require('./messaging/init-admin-messaging');
@@ -21,7 +22,8 @@ global.game = {
   id: null,
   state: "loading"
 };
-global.leaderboard = null;
+global.polledLeaderboard = {}
+global.leaderboard = [];
 global.edgeStats = {};
 global.botConfig = {};
 global.socketServer = new WebSocket.Server({
@@ -29,10 +31,13 @@ global.socketServer = new WebSocket.Server({
   port: PORT
 });
 
+pollLeaderboard(5000);
+
 setInterval(function () {
   broadcast(JSON.stringify({
     type: OUTGOING_MESSAGE_TYPES.HEARTBEAT,
     game: global.game,
+    polledLeaderboard: global.polledLeaderboard,
     leaderboard: global.leaderboard,
     edgeStats: global.edgeStats,
     botConfig: global.botConfig

@@ -108,7 +108,7 @@ function Cluster({cluster, clusterConfig, updateClusterBots, updateClusterInterv
           </button>
         </div>
       </div>
-      <table className='table machine-list-table'>
+      <table className='table bot-server-table'>
         <thead>
         <tr>
           <th>Bot Server</th>

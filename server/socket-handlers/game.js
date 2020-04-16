@@ -21,6 +21,7 @@ async function gameHandler(ws, messageObj) {
   }
 
   Object.assign(game, messageObj.game);
+  game.date = new Date().toISOString()
 
   try {
     await global.gameData.put(GAME_DATA_KEYS.CURRENT_GAME, JSON.stringify(game));
