@@ -13,7 +13,12 @@ function* watchSendPing() {
 }
 
 function* executeUpdateGameState(action) {
-  yield put(sendOutgoingMessage({type: OUTGOING_MESSAGE_TYPES.UPDATE_GAME, game: { 'state': action.payload}}));
+  yield put(sendOutgoingMessage({
+    type: OUTGOING_MESSAGE_TYPES.UPDATE_GAME,
+    game: {state: action.payload.state},
+    username: action.payload.username,
+    password: action.payload.password
+  }));
 }
 
 function* watchUpdateGameState() {
@@ -21,7 +26,11 @@ function* watchUpdateGameState() {
 }
 
 function* executeResetGame(action) {
-  yield put(sendOutgoingMessage({type: OUTGOING_MESSAGE_TYPES.RESET_GAME}));
+  yield put(sendOutgoingMessage({
+    type: OUTGOING_MESSAGE_TYPES.RESET_GAME,
+    username: action.payload.username,
+    password: action.payload.password
+  }));
 }
 
 function* watchResetGame() {

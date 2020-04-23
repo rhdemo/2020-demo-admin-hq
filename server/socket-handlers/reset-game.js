@@ -2,8 +2,12 @@ const log = require('../utils/log')('reset-game-socket-handler');
 const { v4: uuidv4 } = require('uuid');
 const AMQ_MESSAGE_TYPES = require('../messaging/message-types');
 const {GAME_DATA_KEYS, GAME_STATES} = require("../datagrid/game-constants");
+const validAuth = require('./valid-auth');
 
 async function resetGameHandler(ws, messageObj) {
+  if (!validAuth(ws, messageObj)) {
+    return;
+  }
   await resetBotConfig();
   await resetGame();
 }

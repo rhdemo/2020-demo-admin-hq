@@ -38,7 +38,7 @@ async function getLeaderboard() {
   const timeDiff = endTime - startTime;
 
   if (timeDiff > 300) {
-    log.warn(`Scoring service status took ${timeDiff} ms`);
+    log.warn(`leaderboard request took ${timeDiff} ms`);
   }
 }
 

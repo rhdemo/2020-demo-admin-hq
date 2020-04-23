@@ -1,7 +1,11 @@
 const log = require('../utils/log')('bot-ping-socket-handler');
 const AMQ_MESSAGE_TYPES = require('../messaging/message-types');
+const validAuth = require('./valid-auth');
 
 async function botPingHandler(ws, messageObj) {
+  if (!validAuth(ws, messageObj)) {
+    return;
+  }
   resetStats();
   setTimeout(() => pingBots(), 200);
 }

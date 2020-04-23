@@ -4,7 +4,8 @@ module.exports.INCOMING_MESSAGE_TYPES = {
   PING: 'ping',
   RESET_GAME: 'reset-game',
   BOT_PING: 'bot-ping',
-  BOT_CONFIG: 'bot-config'
+  BOT_CONFIG: 'bot-config',
+  AUTH_CHECK: 'auth-check'
 };
 
 module.exports.OUTGOING_MESSAGE_TYPES = {
@@ -13,5 +14,6 @@ module.exports.OUTGOING_MESSAGE_TYPES = {
   GAME: 'game',
   BOT_CONFIG: 'bot-config',
   EDGE_STATS: 'edge-stats',
-  PING_RESPONSE: 'pong'
+  PING_RESPONSE: 'pong',
+  AUTH_RESPONSE: 'auth-response'
 };

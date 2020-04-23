@@ -7,7 +7,7 @@ import { resetGame } from '../actions';
 import './GameStatus.scss';
 
 
-function GameStatus({game, resetGame}) {
+function GameStatus({game, resetGame, username, password, validAuth}) {
   function renderGameState() {
     switch (game.state) {
       case GAME_STATES.LOBBY:
@@ -35,7 +35,7 @@ function GameStatus({game, resetGame}) {
             className='button'
             type='button'
             onClick={() => {
-              resetGame();
+              resetGame(username, password);
             }}>
             <FontAwesomeIcon icon={faUndo}/> Reset
           </button>
@@ -58,8 +58,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    resetGame: () => {
-      dispatch(resetGame());
+    resetGame: (username, password) => {
+      dispatch(resetGame(username, password));
     }
   };
 }

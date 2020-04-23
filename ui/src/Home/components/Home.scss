@@ -1,11 +1,26 @@
 .home {
-  padding-top: 2rem;
+  //padding-top: 2rem;
 
   .horizontal-button-container {
     .button {
       margin-top: 1rem;
       margin-right: 1rem;
       margin-bottom: 1rem;
+    }
+  }
+
+  .login-modal {
+    .login-form {
+      margin-top: 2rem;
+    }
+
+    .toggle-hide-password {
+      //height: 24px;
+      //width: fit-content;
+      //padding: 0;
+      //border: none;
+      cursor: pointer;
+      margin-left: 0.5rem;
     }
   }
 }

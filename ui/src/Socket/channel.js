@@ -1,5 +1,5 @@
 import Sockette from 'sockette';
-import { take, put, fork, apply, takeLatest } from 'redux-saga/effects'
+import { take, put, apply, takeLatest } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 
 import {

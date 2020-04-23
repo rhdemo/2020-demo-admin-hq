@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faStop, faPlay, faStar, faPause, faUndo } from '@fortawesome/free-solid-svg-icons';
-import { sendPing, updateGameState, resetGame } from '../actions';
+import { updateGameState, resetGame } from '../actions';
 import GAME_STATES from '../../utilities/GameStates'
 import './GameTools.scss';
 
-function GameTools({game, updateGameState, resetGame}) {
+function GameTools({game, updateGameState, resetGame, username, password, validAuth}) {
   if (!game) {
     return <div/>;
   }
@@ -16,48 +16,54 @@ function GameTools({game, updateGameState, resetGame}) {
       <button
         className='button'
         type='button'
+        disabled={!validAuth}
         onClick={() => {
-          updateGameState(GAME_STATES.LOBBY);
+          updateGameState(GAME_STATES.LOBBY, username, password);
         }}>
         <FontAwesomeIcon icon={faHome}/> Lobby
       </button>
       <button
         className='button'
         type='button'
+        disabled={!validAuth}
         onClick={() => {
-          updateGameState(GAME_STATES.STOPPED);
+          updateGameState(GAME_STATES.STOPPED, username, password);
         }}>
         <FontAwesomeIcon icon={faStop}/> Stop
       </button>
       <button
         className='button'
         type='button'
+        disabled={!validAuth}
         onClick={() => {
-          updateGameState(GAME_STATES.PAUSED);
+          updateGameState(GAME_STATES.PAUSED, username, password);
         }}>
         <FontAwesomeIcon icon={faPause}/> Pause
       </button>
       <button
         className='button'
         type='button'
+        disabled={!validAuth}
         onClick={() => {
-          updateGameState(GAME_STATES.ACTIVE);
+          updateGameState(GAME_STATES.ACTIVE, username, password);
         }}>
         <FontAwesomeIcon icon={faPlay}/> Play
       </button>
       <button
         className='button'
         type='button'
+        disabled={!validAuth}
         onClick={() => {
-          updateGameState(GAME_STATES.BONUS);
+          updateGameState(GAME_STATES.BONUS, username, password);
         }}>
         <FontAwesomeIcon icon={faStar}/> Bonus
       </button>
       <button
         className='button'
         type='button'
+        disabled={!validAuth}
         onClick={() => {
-          resetGame();
+          resetGame(username, password);
         }}>
         <FontAwesomeIcon icon={faUndo}/> Reset
       </button>
@@ -71,11 +77,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateGameState: (state) => {
-      dispatch(updateGameState(state));
+    updateGameState: (state, username, password) => {
+      dispatch(updateGameState(state, username, password));
     },
-    resetGame: () => {
-      dispatch(resetGame());
+    resetGame: (username, password) => {
+      dispatch(resetGame(username, password));
     }
   };
 }

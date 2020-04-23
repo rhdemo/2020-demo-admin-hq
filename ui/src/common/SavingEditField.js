@@ -4,11 +4,14 @@ import { faUndo, faSave } from '@fortawesome/free-solid-svg-icons';
 
 import './SavingEditField.scss';
 
-function SavingEditField({type, value, onSave}) {
+function SavingEditField({type, value, onSave, disabled}) {
   const [editMode, setEditMode] = useState(false);
   const [editValue, setEditValue] = useState(value);
 
   function onEdit() {
+    if (disabled) {
+      return;
+    }
     setEditValue(value);
     setEditMode(true);
   }
@@ -71,6 +74,7 @@ function SavingEditField({type, value, onSave}) {
         onClick={onEdit}
         onSelect={onEdit}
         readOnly
+        disabled={disabled}
       />
     </div>);
 }

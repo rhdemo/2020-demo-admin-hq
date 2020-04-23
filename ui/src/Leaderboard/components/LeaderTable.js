@@ -22,7 +22,7 @@ function LeaderTable({leaders}) {
         </thead>
         <tbody>
         {leaders.map((l, idx) => (
-          <tr>
+          <tr key={idx}>
             <td>{idx + 1}</td>
             <td>{l.username}</td>
             <td>${l.score}</td>

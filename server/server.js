@@ -5,6 +5,7 @@ const WebSocket = require("ws");
 const broadcast = require('./utils/broadcast');
 const processSocketMessage = require('./socket-handlers/process-socket-message');
 const {OUTGOING_MESSAGE_TYPES} = require('./socket-handlers/message-types');
+const getGameStats = require('./socket-handlers/get-game-stats');
 
 require('./datagrid/enable-logging');
 const initGameData = require('./datagrid/init-game-data');
@@ -34,14 +35,9 @@ global.socketServer = new WebSocket.Server({
 pollLeaderboard(5000);
 
 setInterval(function () {
-  broadcast(JSON.stringify({
-    type: OUTGOING_MESSAGE_TYPES.HEARTBEAT,
-    game: global.game,
-    polledLeaderboard: global.polledLeaderboard,
-    leaderboard: global.leaderboard,
-    edgeStats: global.edgeStats,
-    botConfig: global.botConfig
-  }));
+  let gameStats = getGameStats();
+  gameStats.type = OUTGOING_MESSAGE_TYPES.HEARTBEAT;
+  broadcast(JSON.stringify(gameStats));
 }, 3000);
 
 initGameData()

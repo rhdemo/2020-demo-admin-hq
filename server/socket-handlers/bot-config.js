@@ -1,10 +1,16 @@
 const merge = require('lodash/merge');
 const log = require('../utils/log')('bot-ping-socket-handler');
+const {OUTGOING_MESSAGE_TYPES} = require('../socket-handlers/message-types');
 const AMQ_MESSAGE_TYPES = require('../messaging/message-types');
 const {GAME_DATA_KEYS} = require("../datagrid/game-constants");
+const validAuth = require('./valid-auth');
 
 async function botConfigHandler(ws, messageObj) {
   log.trace('botConfigHandler');
+  if (!validAuth(ws, messageObj)) {
+    return;
+  }
+
   let botConfig = {};
   try {
     let str = await global.gameData.get(GAME_DATA_KEYS.BOT_CONFIG);

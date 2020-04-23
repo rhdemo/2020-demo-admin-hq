@@ -12,7 +12,7 @@ function buildTableData(cluster) {
   return sortBy(Object.values(cluster.bots), ['hostname']);
 }
 
-function Cluster({cluster, clusterConfig, updateClusterBots, updateClusterInterval}) {
+function Cluster({cluster, clusterConfig, updateClusterBots, updateClusterInterval, editable}) {
   const botServers = buildTableData(cluster);
   const botsPerServer = clusterConfig && Number.isInteger(clusterConfig.bots) ? clusterConfig.bots : 0;
   const botInterval = clusterConfig && Number.isInteger(clusterConfig.interval) ? clusterConfig.interval : 0;
@@ -54,19 +54,24 @@ function Cluster({cluster, clusterConfig, updateClusterBots, updateClusterInterv
           <SavingEditField
             type='number'
             value={botInterval}
-            onSave={updateInterval}/>
+            onSave={updateInterval}
+            disabled={!editable}
+          />
         </div>
         <div className='field'>
           <label className='label'><FontAwesomeIcon icon={faRobot}/> Bots Per Server</label>
           <SavingEditField
             type='number'
             value={botsPerServer}
-            onSave={updateBots}/>
+            onSave={updateBots}
+            disabled={!editable}
+          />
         </div>
         <div className='button-bar'>
           <button
             className='button'
             type='button'
+            disabled={!editable}
             onClick={() => {
               incrementBots(-100);
             }}>-100
@@ -74,6 +79,7 @@ function Cluster({cluster, clusterConfig, updateClusterBots, updateClusterInterv
           <button
             className='button'
             type='button'
+            disabled={!editable}
             onClick={() => {
               incrementBots(-10);
             }}>-10
@@ -81,6 +87,7 @@ function Cluster({cluster, clusterConfig, updateClusterBots, updateClusterInterv
           <button
             className='button'
             type='button'
+            disabled={!editable}
             onClick={() => {
               incrementBots(-1);
             }}>-1
@@ -88,6 +95,7 @@ function Cluster({cluster, clusterConfig, updateClusterBots, updateClusterInterv
           <button
             className='button'
             type='button'
+            disabled={!editable}
             onClick={() => {
               incrementBots(1);
             }}>+1
@@ -95,6 +103,7 @@ function Cluster({cluster, clusterConfig, updateClusterBots, updateClusterInterv
           <button
             className='button'
             type='button'
+            disabled={!editable}
             onClick={() => {
               incrementBots(10);
             }}>+10
@@ -102,6 +111,7 @@ function Cluster({cluster, clusterConfig, updateClusterBots, updateClusterInterv
           <button
             className='button'
             type='button'
+            disabled={!editable}
             onClick={() => {
               incrementBots(100);
             }}>+100

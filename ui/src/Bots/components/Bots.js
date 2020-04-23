@@ -14,12 +14,12 @@ function buildTableData(edgeStats) {
   return sortBy(Object.values(edgeStats), ['clusterName']);
 }
 
-function Bots({sendBotPing, resetBotConfig, updateBotConfig, edgeStats, botConfig}) {
+function Bots({sendBotPing, resetBotConfig, updateBotConfig, edgeStats, botConfig, username, password, validAuth}) {
   function updateClusterConfig(clusterName, propName, value) {
     let botConfig = {};
     botConfig[clusterName] = {};
     botConfig[clusterName][propName] = value;
-    updateBotConfig(botConfig);
+    updateBotConfig(botConfig, username, password);
   }
 
   const clusters = buildTableData(edgeStats);
@@ -32,16 +32,18 @@ function Bots({sendBotPing, resetBotConfig, updateBotConfig, edgeStats, botConfi
           <button
             className='button'
             type='button'
+            disabled={!validAuth}
             onClick={() => {
-              sendBotPing()
+              sendBotPing(username, password)
             }}>
             <FontAwesomeIcon icon={faProjectDiagram}/> Refresh Servers
           </button>
           <button
             className='button'
             type='button'
+            disabled={!validAuth}
             onClick={() => {
-              resetBotConfig()
+              resetBotConfig(username, password)
             }}>
             <FontAwesomeIcon icon={faUndo}/> Reset All
           </button>
@@ -54,6 +56,7 @@ function Bots({sendBotPing, resetBotConfig, updateBotConfig, edgeStats, botConfi
         clusterConfig={botConfig[cluster.clusterName]}
         updateClusterInterval={(interval) => {updateClusterConfig(cluster.clusterName, 'interval', interval)}}
         updateClusterBots={(bots) => {updateClusterConfig(cluster.clusterName, 'bots', bots)}}
+        editable={validAuth}
         />))}
     </div>);
 }
@@ -65,14 +68,14 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    sendBotPing: () => {
-      dispatch(sendBotPing());
+    sendBotPing: (username, password) => {
+      dispatch(sendBotPing(username, password));
     },
-    resetBotConfig: () => {
-      dispatch(updateBotConfig('PUT', {}));
+    resetBotConfig: (username, password) => {
+      dispatch(updateBotConfig('PUT', {}, username, password));
     },
-    updateBotConfig: (botConfig) => {
-      dispatch(updateBotConfig('PATCH', botConfig));
+    updateBotConfig: (botConfig, username, password) => {
+      dispatch(updateBotConfig('PATCH', botConfig, username, password));
     },
   };
 }
