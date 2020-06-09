@@ -30,7 +30,7 @@ async function getLeaderboard() {
     log.trace('leaderboard = %o', response.data);
     global.polledLeaderboard = response.data;
   } catch (error) {
-    global.polledLeaderboard = {error};
+    global.polledLeaderboard = {error: error.message};
     log.error('leaderboard request failed %o', error.message);
   }
 
