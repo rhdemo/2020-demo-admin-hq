@@ -7,4 +7,4 @@ SOURCE_REPOSITORY_REF=${SOURCE_REPOSITORY_REF:-master}
 
 echo "Building ${IMAGE_REPOSITORY}/server from ${SOURCE_REPOSITORY_URL} on ${SOURCE_REPOSITORY_REF}"
 
-s2i build ${SOURCE_REPOSITORY_URL} --ref ${SOURCE_REPOSITORY_REF} --context-dir /server ubi8/nodejs-12 ${IMAGE_REPOSITORY}
+s2i build ${SOURCE_REPOSITORY_URL} --ref ${SOURCE_REPOSITORY_REF} --context-dir /server centos/nodejs-12-centos7 ${IMAGE_REPOSITORY}
