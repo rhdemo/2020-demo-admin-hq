@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "env-var": "^5.1.0",
     "infinispan": "^0.7.0",
     "lodash": "^4.17.19",
